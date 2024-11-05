@@ -50,7 +50,8 @@ def HLT():
 def ADD():
     registers[int(registerDest,2)] = (registers[int(registerA,2)] + registers[int(registerB,2)]) % 0x100
 def SUB():
-    registers[int(registerDest,2)] = (registers[int(registerA,2)] + (registers[int(registerB,2)]^0xFF)) % 0x100
+    result = (registers[int(registerA,2)] + (registers[int(registerB,2)]^0xFF))
+    registers[int(registerDest,2)] = (result + 1)  % 0x100
 def BIT():
     pass
 def BNT():
@@ -129,3 +130,5 @@ while not halt:
     excecuteInstr(opcode)
     if(opcode < 9):
         updateFlags(registers[int(registerDest,2)])
+
+print(list(registers))
