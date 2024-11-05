@@ -55,7 +55,7 @@ for line in lines:
         opcode = linear_search(opcodeStrings,opcodeStr)
         binaryInstruction += f'{opcode:04b}' 
 
-
+#github test akjsfjkfjksfhjks
         
 
     print(binaryInstruction)
