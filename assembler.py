@@ -58,10 +58,11 @@ for line in lines:
         binaryInstruction += f'{opcode:04b}' 
         print(binaryInstruction)
 
-        with open("machine_code.txt", "w") as file:
+        with open("machine_code.txt", "a") as file:
             file.write(binaryInstruction)
 
 print(jumpAddesses)
+print(jumpLabels)
 
 
 
