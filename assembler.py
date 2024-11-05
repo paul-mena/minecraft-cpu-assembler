@@ -49,6 +49,7 @@ for line in lines:
     else:
         currentAddress += 1
 
+#num = 0
 for line in lines:
     if line[:1] != '.':
         binaryInstruction = ''
@@ -56,10 +57,19 @@ for line in lines:
         opcodeStr = tokens[0]
         opcode = linear_search(opcodeStrings,opcodeStr)
         binaryInstruction += f'{opcode:04b}' 
-        print(binaryInstruction)
 
+        if opcode in (0, 1, 10, 12, 13, 14):
+            pass
+        else:
+            regDestStr = tokens[1]
+            regDestInt = int(regDestStr[1:])
+            binaryInstruction += f'{regDestInt:03b}'
+            binaryInstruction += '0'
+
+        print(binaryInstruction)
         with open("machine_code.txt", "a") as file:
             file.write(binaryInstruction)
+        #num += 1
 
 print(jumpAddesses)
 print(jumpLabels)
