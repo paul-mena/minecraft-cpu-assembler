@@ -29,6 +29,7 @@ def linear_search(arr, target):
         if arr[index] == target:
             return index  # Return the index of the found element
     return -1  # Return -1 if the element is not found
+#def findJumpAddress():
 
 # Usage
 file_path = 'program.as'  # Replace with the path to your .as file
@@ -38,18 +39,21 @@ opcodeStrings = ['nop', 'hlt', 'add', 'sub', 'bit', 'bnt', 'inc', 'dec', 'rsh', 
 
 currentAddress = -1
 jumpLabels = []
-jumpAddesses = []
+jumpAddresses = []
 
 
 
 for line in lines:
     if line[:1] == '.':
         jumpLabels.append(line)
-        jumpAddesses.append(currentAddress + 1)
+        jumpAddresses.append(currentAddress + 1)
     else:
         currentAddress += 1
 
 #num = 0
+
+#missing instructions: MST MLD BIT BNT
+#PLD not tested yet
 for line in lines:
     if line[:1] != '.':
         binaryInstruction = ''
@@ -58,20 +62,65 @@ for line in lines:
         opcode = linear_search(opcodeStrings,opcodeStr)
         binaryInstruction += f'{opcode:04b}' 
 
-        if opcode in (0, 1, 10, 12, 13, 14):
-            pass
+        if opcode in (0, 1, 10, 12, 14):
+            if opcode < 2:
+                binaryInstruction += '000000000000'
+            if opcode == 12:
+                jumpLabel = tokens[1]
+                jumpLabelIndex = linear_search(jumpLabels, jumpLabel)
+                jumpAddress = jumpAddresses[jumpLabelIndex]
+                binaryInstruction += '0000'
+                binaryInstruction += f'{jumpAddress:08b}'
+            if opcode == 14:
+                binaryInstruction += '0000'
+                regAStr = tokens[1]
+                regAInt = int(regAStr[1:])
+                binaryInstruction += f'{regAInt:03b}'
+                portAddressStr = tokens[2]
+                portAddress = int(portAddressStr[1:])
+                binaryInstruction += f'{portAddress:05b}'
         else:
             regDestStr = tokens[1]
             regDestInt = int(regDestStr[1:])
             binaryInstruction += f'{regDestInt:03b}'
             binaryInstruction += '0'
+            if opcode > 1 and opcode < 9:
+                regAStr = tokens[2]
+                regAInt = int(regAStr[1:])
+                binaryInstruction += f'{regAInt:03b}'
+                if opcode == 4 or opcode == 5:
+                    pass
+                elif opcode == 2 or opcode == 3:
+                    binaryInstruction += '00'
+                    regBStr = tokens[3]
+                    regBInt = int(regBStr[1:])
+                    binaryInstruction += f'{regBInt:03b}'
+                else:
+                    binaryInstruction += f'{0:05b}'
+
+            if opcode == 9:
+                immediateStr = tokens[2]
+                immediateInt = int(immediateStr)
+                binaryInstruction += f'{immediateInt:08b}'
+            if opcode == 13:
+                jumpLabel = tokens[2]
+                jumpLabelIndex = linear_search(jumpLabels, jumpLabel)
+                jumpAddress = jumpAddresses[jumpLabelIndex]
+                binaryInstruction += f'{jumpAddress:08b}'
+            if opcode == 15:
+                portAddressStr = tokens[2]
+                portAddress = int(portAddressStr[1:])
+                binaryInstruction += f'{portAddress:08b}'
+
+
+
 
         print(binaryInstruction)
         with open("machine_code.txt", "a") as file:
             file.write(binaryInstruction)
         #num += 1
 
-print(jumpAddesses)
+print(jumpAddresses)
 print(jumpLabels)
 
 
