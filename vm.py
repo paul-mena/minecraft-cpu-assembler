@@ -1,7 +1,5 @@
 from array import array
 
-instructionMem = []
-
 def read_file_to_16bit_array(file_path, chunk_size=16):
     # Initialize an empty list to store the 16-bit integers
     instructionArr = []
@@ -22,6 +20,8 @@ def read_file_to_16bit_array(file_path, chunk_size=16):
                 instructionArr.append(int(chunk, 2))
     
     return instructionArr
+
+instructionMem = []
 
 file_path = 'machine_code.txt'  # Replace with the path to your text file
 instructionMem = read_file_to_16bit_array(file_path)

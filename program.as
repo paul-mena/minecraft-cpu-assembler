@@ -1,5 +1,5 @@
-ldi r1 15
-ldi r2 3
+ldi r1 72
+ldi r2 9
 ldi r3 0
 .loop
 sub r1 r1 r2
