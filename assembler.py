@@ -54,11 +54,8 @@ for line in lines:
         opcodeStr = tokens[0]
         opcode = linear_search(opcodeStrings,opcodeStr)
         binaryInstruction += f'{opcode:04b}' 
+        print(binaryInstruction)
 
-#github test akjsfjkfjksfhjks
-        
-
-    print(binaryInstruction)
 print(jumpAddesses)
 
 
