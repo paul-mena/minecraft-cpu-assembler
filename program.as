@@ -1,11 +1,11 @@
-ldi r1 10
-#
+ldi r1 15
+ldi r2 3
+ldi r3 0
 .loop
-pst r1 p0
-# Check if value in r1 is equal to zero
+sub r1 r1 r2
+inc r3
+sub r0 r1 r2
+cjp c0 .done
 cjp c2 .done
-dec r1 r1
 jmp .loop
-#
-.done
 hlt
