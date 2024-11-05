@@ -52,8 +52,12 @@ for line in lines:
 
 #num = 0
 
+with open("machine_code.txt", "w") as file:
+            file.write('')
+
 #missing instructions: MST MLD BIT BNT
 #PLD not tested yet
+#loading negative immediates not tested yet
 for line in lines:
     if line[:1] != '.':
         binaryInstruction = ''
