@@ -40,6 +40,8 @@ currentAddress = -1
 jumpLabels = []
 jumpAddesses = []
 
+
+
 for line in lines:
     if line[:1] == '.':
         jumpLabels.append(line)
@@ -55,6 +57,9 @@ for line in lines:
         opcode = linear_search(opcodeStrings,opcodeStr)
         binaryInstruction += f'{opcode:04b}' 
         print(binaryInstruction)
+
+        with open("machine_code.txt", "w") as file:
+            file.write(binaryInstruction)
 
 print(jumpAddesses)
 
