@@ -78,7 +78,7 @@ def CJP():
         programCounter = int(jumpAddress,2)
 def PST():
     ioPorts[int(portAddress,2)] = registers[int(registerA,2)]
-    print(ioPorts[0])
+    print(ioPorts[7])
 def PLD():
     registers[int(registerDest,2)] = ioPorts[int(portAddress,2)]
 # Create an array of Instructions
