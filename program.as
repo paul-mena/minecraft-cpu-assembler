@@ -1,13 +1,15 @@
-ldi r1 72
-ldi r2 9
+ldi r0 0
+ldi r1 0
+ldi r2 1
 ldi r3 0
+ldi r4 8
 .loop
-sub r1 r1 r2
-inc r3 r3
-sub r0 r1 r2
-cjp c0 .done
+add r3 r1 r2
+add r1 r2 r0
+add r2 r3 r0
+dec r4 r4
+pst r3 p7
 cjp c2 .done
 jmp .loop
 .done
-inc r3 r3
 hlt
