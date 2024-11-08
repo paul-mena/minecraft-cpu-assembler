@@ -100,7 +100,7 @@ for line in lines:
                     regBInt = int(regBStr[1:])
                     binaryInstruction += f'{regBInt:03b}'
                 else:
-                    binaryInstruction += f'{0:05b}'
+                    binaryInstruction += '00000'
 
             if opcode == 9:
                 immediateStr = tokens[2]
@@ -126,48 +126,3 @@ for line in lines:
 
 print(jumpAddresses)
 print(jumpLabels)
-
-
-
-# Define Instructions
-def NOP():
-    pass
-def HLT():
-    pass
-def ADD():
-    pass
-def SUB():
-    pass
-def BIT():
-    pass
-def BNT():
-    pass
-def INC():
-    pass
-def DEC():
-    pass
-def RSH():
-    pass
-def LDI():
-    pass
-def MST():
-    pass
-def MLD():
-    pass
-def JMP():
-    pass
-def CJP():
-    pass
-def PST():
-    pass
-def PLD():
-    pass
-# Create an array of Instructions
-functions = [NOP, HLT, ADD, SUB, BIT, BNT, INC, DEC, RSH, LDI, MST, MLD, JMP, CJP, PST, PLD]
-
-# Call a function based on opcode
-def assembleInstruction(number):
-    if 0 <= number < len(functions):
-        return functions[number]()
-    else:
-        return "Invalid function number"
