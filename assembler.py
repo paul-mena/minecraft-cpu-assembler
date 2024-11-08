@@ -19,11 +19,6 @@ def read_assembly_file_to_list(file_path):
 
     return lines_list
 
-# Convert an integer to binary string using bin()
-def binary_str(int_string) -> str:
-    num = int(int_string)
-    return bin(num)[2:]  # Remove the '0b' prefix
-
 def linear_search(arr, target):
     for index in range(len(arr)):
         if arr[index] == target:
@@ -49,8 +44,6 @@ for line in lines:
         jumpAddresses.append(currentAddress + 1)
     else:
         currentAddress += 1
-
-#num = 0
 
 with open("machine_code.txt", "w") as file:
             file.write('')
@@ -122,7 +115,5 @@ for line in lines:
         print(binaryInstruction)
         with open("machine_code.txt", "a") as file:
             file.write(binaryInstruction)
-        #num += 1
-
-print(jumpAddresses)
-print(jumpLabels)
+#print(jumpAddresses)
+#print(jumpLabels)
