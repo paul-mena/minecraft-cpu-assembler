@@ -81,7 +81,7 @@ def pst():
     print(ioPorts[7])
 def pld():
     registers[int(registerDest,2)] = ioPorts[int(portAddress,2)]
-# Create an array of Instructions
+
 opcodeFunctions = [nop, hlt, add, sub, bit, bnt, inc, dec, rsh, ldi, mst, mld, jmp, cjp, pst, pld]
 
 # Call a function based on opcode
