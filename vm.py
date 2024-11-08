@@ -41,53 +41,53 @@ registers[2] = 5
 ioPorts = array('B', [0] * 8)
 
 # Define Instructions
-def NOP():
+def nop():
     pass
-def HLT():
+def hlt():
     global halt
     halt = True
     print("Program stopped succesfully")
-def ADD():
+def add():
     registers[int(registerDest,2)] = (registers[int(registerA,2)] + registers[int(registerB,2)]) % 0x100
-def SUB():
+def sub():
     result = (registers[int(registerA,2)] + (registers[int(registerB,2)]^0xFF))
     registers[int(registerDest,2)] = (result + 1)  % 0x100
-def BIT():
+def bit():
     pass
-def BNT():
+def bnt():
     pass
-def INC():
+def inc():
     registers[int(registerDest,2)] = registers[int(registerA,2)] + 1
-def DEC():
+def dec():
     registers[int(registerDest,2)] = (registers[int(registerA,2)] + 0xFF) % 0x100
-def RSH():
+def rsh():
     registers[int(registerDest,2)] = registers[int(registerA,2)] >> 1
-def LDI():
+def ldi():
     registers[int(registerDest,2)] = int(immediate,2)
-def MST():
+def mst():
     pass
-def MLD():
+def mld():
     pass
-def JMP():
+def jmp():
     global programCounter
     programCounter = int(jumpAddress,2)
-def CJP():
+def cjp():
     global flagsArray
     global programCounter
     if flagsArray[condition] == True:
         programCounter = int(jumpAddress,2)
-def PST():
+def pst():
     ioPorts[int(portAddress,2)] = registers[int(registerA,2)]
     print(ioPorts[7])
-def PLD():
+def pld():
     registers[int(registerDest,2)] = ioPorts[int(portAddress,2)]
 # Create an array of Instructions
-functions = [NOP, HLT, ADD, SUB, BIT, BNT, INC, DEC, RSH, LDI, MST, MLD, JMP, CJP, PST, PLD]
+opcodeFunctions = [nop, hlt, add, sub, bit, bnt, inc, dec, rsh, ldi, mst, mld, jmp, cjp, pst, pld]
 
 # Call a function based on opcode
 def excecuteInstr(number):
-    if 0 <= number < len(functions):
-        return functions[number]()
+    if 0 <= number < len(opcodeFunctions):
+        return opcodeFunctions[number]()
     else:
         return "Invalid function number"
     
