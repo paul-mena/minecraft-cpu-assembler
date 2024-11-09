@@ -54,7 +54,7 @@ def assemble(file_path, output_file):
         if line[:1] != '.':
             binaryInstruction = ''
             tokens = line.split()
-            print(list(tokens))
+            #print(list(tokens))
             opcodeStr = tokens[0]
             opcode = linear_search(opcodeStrings,opcodeStr)
             binaryInstruction += f'{opcode:04b}' 
