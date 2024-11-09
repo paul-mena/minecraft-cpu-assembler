@@ -8,7 +8,7 @@ def read_assembly_file_to_list(file_path):
             # Read each line from the file
             for line in file:
                 # Strip leading/trailing whitespace and add to the list
-                stripped_line = line.strip()
+                stripped_line = line.lstrip().rstrip()
 
                 if not stripped_line.startswith('#') and stripped_line:
                     lines_list.append(stripped_line)
@@ -106,8 +106,8 @@ def assemble(file_path, output_file):
                     portAddress = int(portAddressStr[1:])
                     binaryInstruction += f'{portAddress:08b}'
         
-        print(binaryInstruction)
-        with open(output_file, "a") as file:
-            file.write(binaryInstruction)
+            print(binaryInstruction)
+            with open(output_file, "a") as file:
+                file.write(binaryInstruction)
 #print(jumpAddresses)
 #print(jumpLabels)
