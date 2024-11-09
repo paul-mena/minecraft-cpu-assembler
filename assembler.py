@@ -23,6 +23,7 @@ def linear_search(arr, target):
     for index in range(len(arr)):
         if arr[index] == target:
             return index  # Return the index of the found element
+    print("Not found")
     return -1  # Return -1 if the element is not found
 #def findJumpAddress():
 
@@ -33,6 +34,7 @@ def assemble(file_path, output_file):
     lines = read_assembly_file_to_list(file_path)
 
     opcodeStrings = ['nop', 'hlt', 'add', 'sub', 'bit', 'bnt', 'inc', 'dec', 'rsh', 'ldi', 'mst', 'mld', 'jmp', 'cjp', 'pst', 'pld']
+    flagLabels = ['msb','!msb', 'zero', '!zero','sss','sss','sss','sss']
 
     currentAddress = -1
     jumpLabels = []
@@ -52,11 +54,12 @@ def assemble(file_path, output_file):
         if line[:1] != '.':
             binaryInstruction = ''
             tokens = line.split()
+            print(list(tokens))
             opcodeStr = tokens[0]
             opcode = linear_search(opcodeStrings,opcodeStr)
             binaryInstruction += f'{opcode:04b}' 
 
-            if opcode in (0, 1, 10, 12, 14):
+            if opcode in (0, 1, 10, 12, 13, 14):
                 if opcode < 2:
                     binaryInstruction += '000000000000'
                 if opcode == 12:
@@ -64,6 +67,16 @@ def assemble(file_path, output_file):
                     jumpLabelIndex = linear_search(jumpLabels, jumpLabel)
                     jumpAddress = jumpAddresses[jumpLabelIndex]
                     binaryInstruction += '0000'
+                    binaryInstruction += f'{jumpAddress:08b}'
+                if opcode == 13:
+                    flagLabel = tokens[1]
+                    flagLabelIndex = linear_search(flagLabels, flagLabel)
+                    binaryInstruction += f'{flagLabelIndex:03b}'
+                    binaryInstruction += '0'
+
+                    jumpLabel = tokens[2]
+                    jumpLabelIndex = linear_search(jumpLabels, jumpLabel)
+                    jumpAddress = jumpAddresses[jumpLabelIndex]
                     binaryInstruction += f'{jumpAddress:08b}'
                 if opcode == 14:
                     binaryInstruction += '0000'
@@ -96,11 +109,6 @@ def assemble(file_path, output_file):
                     immediateStr = tokens[2]
                     immediateInt = int(immediateStr)
                     binaryInstruction += f'{immediateInt:08b}'
-                if opcode == 13:
-                    jumpLabel = tokens[2]
-                    jumpLabelIndex = linear_search(jumpLabels, jumpLabel)
-                    jumpAddress = jumpAddresses[jumpLabelIndex]
-                    binaryInstruction += f'{jumpAddress:08b}'
                 if opcode == 15:
                     portAddressStr = tokens[2]
                     portAddress = int(portAddressStr[1:])

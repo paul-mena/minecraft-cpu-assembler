@@ -9,7 +9,7 @@ ldi r4 12
     add r2 r3 r0
     dec r4 r4
     pst r3 p7
-    cjp c2 .done
+    cjp zero .done
     jmp .loop
 .done
 hlt
