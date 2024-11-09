@@ -57,7 +57,9 @@ def bnt(operands):
 def inc(operands):
     registerDest = operands[:3]
     registerA = operands[4:7]
-    registers[int(registerDest,2)] = registers[int(registerA,2)] + 1
+    result = registers[int(registerA,2)] + 1
+    registers[int(registerDest,2)] = result % 0x100
+    #print(result)
 def dec(operands):
     registerDest = operands[:3]
     registerA = operands[4:7]
@@ -109,9 +111,11 @@ def updateFlags(aluResult):
     if aluResult >= 128:
         negFlag = True
         flagsArray[0] = negFlag
+        flagsArray[1] = False
     if aluResult == 0:
         zeroFlag = True
         flagsArray[2] = zeroFlag
+        flagsArray[3] = False
     '''
     if aluResult == 0:
         zeroFlag = True
@@ -140,6 +144,7 @@ def run(machine_code_file):
         excecuteInstr(opcode,operands)
         if(opcode < 9):
             updateFlags(registers[int(registerDest,2)])
+    print(list(registers))
 
 
-print(list(registers))
+
