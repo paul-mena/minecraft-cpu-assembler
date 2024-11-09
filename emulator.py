@@ -21,11 +21,6 @@ def read_file_to_16bit_array(file_path, chunk_size=16):
     
     return instructionArr
 
-instructionMem = []
-
-file_path = 'machine_code.txt'  # Replace with the path to your text file
-instructionMem = read_file_to_16bit_array(file_path)
-
 dataMem = []
 
 halt = False
@@ -35,59 +30,77 @@ flagsArray = [False,True,False,True,False,True,False,True]
 
 registers = array('B', [0] * 8)
 
-registers[1] = 3
-registers[2] = 5
-
 ioPorts = array('B', [0] * 8)
 
 # Define Instructions
-def nop():
+def nop(operands):
     pass
-def hlt():
+def hlt(operands):
     global halt
     halt = True
     print("Program stopped succesfully")
-def add():
+def add(operands):
+    registerDest = operands[:3]
+    registerA = operands[4:7]
+    registerB = operands[9:13]
     registers[int(registerDest,2)] = (registers[int(registerA,2)] + registers[int(registerB,2)]) % 0x100
-def sub():
+def sub(operands):
+    registerDest = operands[:3]
+    registerA = operands[4:7]
+    registerB = operands[9:13]
     result = (registers[int(registerA,2)] + (registers[int(registerB,2)]^0xFF))
     registers[int(registerDest,2)] = (result + 1)  % 0x100
-def bit():
+def bit(operands):
     pass
-def bnt():
+def bnt(operands):
     pass
-def inc():
+def inc(operands):
+    registerDest = operands[:3]
+    registerA = operands[4:7]
     registers[int(registerDest,2)] = registers[int(registerA,2)] + 1
-def dec():
+def dec(operands):
+    registerDest = operands[:3]
+    registerA = operands[4:7]
     registers[int(registerDest,2)] = (registers[int(registerA,2)] + 0xFF) % 0x100
-def rsh():
+def rsh(operands):
+    registerDest = operands[:3]
+    registerA = operands[4:7]
     registers[int(registerDest,2)] = registers[int(registerA,2)] >> 1
-def ldi():
+def ldi(operands):
+    registerDest = operands[:3]
+    immediate = operands[4:]
     registers[int(registerDest,2)] = int(immediate,2)
-def mst():
+def mst(operands):
     pass
-def mld():
+def mld(operands):
     pass
-def jmp():
+def jmp(operands):
     global programCounter
+    jumpAddress = operands[6:]
     programCounter = int(jumpAddress,2)
-def cjp():
+def cjp(operands):
     global flagsArray
     global programCounter
+    condition = int(operands[:3],2)
+    jumpAddress = operands[6:]
     if flagsArray[condition] == True:
         programCounter = int(jumpAddress,2)
-def pst():
+def pst(operands):
+    portAddress = operands[9:13]
+    registerA = operands[4:7]
     ioPorts[int(portAddress,2)] = registers[int(registerA,2)]
     print(ioPorts[7])
-def pld():
+def pld(operands):
+    registerDest = operands[:3]
+    portAddress = operands[9:13]
     registers[int(registerDest,2)] = ioPorts[int(portAddress,2)]
 
 opcodeFunctions = [nop, hlt, add, sub, bit, bnt, inc, dec, rsh, ldi, mst, mld, jmp, cjp, pst, pld]
 
 # Call a function based on opcode
-def excecuteInstr(number):
-    if 0 <= number < len(opcodeFunctions):
-        return opcodeFunctions[number]()
+def excecuteInstr(opcode,operands):
+    if 0 <= opcode < len(opcodeFunctions):
+        return opcodeFunctions[opcode](operands)
     else:
         return "Invalid function number"
     
@@ -107,28 +120,26 @@ def updateFlags(aluResult):
         zeroFlag = True
         flagsArray = zeroFlag
     '''
+def run(machine_code_file):
+    instructionMem = []
+    instructionMem = read_file_to_16bit_array(machine_code_file)
+    
+    while not halt:
+        global programCounter
+        instrInt = instructionMem[programCounter]
+        programCounter += 1
 
-while not halt:
-    #global registerDest
-    instrInt = instructionMem[programCounter]
-    programCounter += 1
+        instruction = f'{instrInt:016b}'
+        opcodeStr = instruction[:4]
+        opcode = int(opcodeStr, 2)
+        operands = instruction[4:]
+        
+        registerDest = operands[:3]
+        
+        #print(opcode)
+        excecuteInstr(opcode,operands)
+        if(opcode < 9):
+            updateFlags(registers[int(registerDest,2)])
 
-    instruction = f'{instrInt:016b}'
-    opcodeStr = instruction[:4]
-    opcode = int(opcodeStr, 2)
-    operands = instruction[4:]
-
-    registerDest = operands[:3]
-    registerA = operands[4:7]
-    registerB = operands[9:13]
-    immediate = operands[4:]
-    jumpAddress = operands[6:]
-    condition = int(registerDest,2)
-    portAddress = registerB
-
-    #print(opcode)
-    excecuteInstr(opcode)
-    if(opcode < 9):
-        updateFlags(registers[int(registerDest,2)])
 
 print(list(registers))
