@@ -2,7 +2,7 @@ ldi r0 0
 ldi r1 0
 ldi r2 1
 ldi r3 0
-ldi r4 4
+ldi r4 12
 .loop
     add r3 r1 r2
     add r1 r2 r0
