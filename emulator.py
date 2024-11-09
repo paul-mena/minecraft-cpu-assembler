@@ -127,7 +127,7 @@ def updateFlags(aluResult):
 def run(machine_code_file):
     instructionMem = []
     instructionMem = read_file_to_16bit_array(machine_code_file)
-    
+
     while not halt:
         global programCounter
         instrInt = instructionMem[programCounter]
@@ -145,6 +145,19 @@ def run(machine_code_file):
         if(opcode < 9):
             updateFlags(registers[int(registerDest,2)])
     print(list(registers))
+def resetEmulator():
+    global halt
+    halt = False
+
+    global programCounter
+    programCounter = 0
+
+    global flagsArray
+    flagsArray = [False,True,False,True,False,True,False,True]
+    global ioPorts
+    global registers
+    registers = array('B', [0] * 8)
+    ioPorts = array('B', [0] * 8)
 
 
 
