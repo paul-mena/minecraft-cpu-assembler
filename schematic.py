@@ -28,25 +28,33 @@ def create_schematic(machine_code_file,file_path,schematic_name):
     secondBytesDistance = 17
     firstBytesDistance = 32
     tracker = 0
+    xOffset = 0
 
     for instruction in instructions:
         byte1 = instruction[:8]
         byte2 = instruction[8:]
+
         if tracker in (0,1):
             yOffset = -1
         elif tracker in (2,3):
             yOffset = 0
+        
         for i in range(0, 8):
             if byte1[i] == '1':
-                schem.setBlock(  (0, -2*i + yOffset, -(firstBytesDistance + instructionNum)), block  )
+                schem.setBlock(  (xOffset, -2*i + yOffset, -(firstBytesDistance + instructionNum)), block  )
         for i in range(0, 8):
             if byte2[i] == '1':
-                schem.setBlock(  (0, -2*i + yOffset, -(secondBytesDistance - instructionNum)), block  )
+                schem.setBlock(  (xOffset, -2*i + yOffset, -(secondBytesDistance - instructionNum)), block  )
+        
         if tracker == 3:
             tracker = 0
         else:
             tracker += 1
-        instructionNum += 1
+        if instructionNum == 15:
+            xOffset = -8
+            instructionNum = 0
+        else:
+            instructionNum += 1
     
     schem.save(  file_path, schematic_name, mcschematic.Version.JE_1_18_2)
         
