@@ -27,17 +27,25 @@ def create_schematic(machine_code_file):
     instructionNum = 0
     secondBytesDistance = 17
     firstBytesDistance = 32
+    tracker = 0
 
     for instruction in instructions:
         byte1 = instruction[:8]
         byte2 = instruction[8:]
-
+        if tracker in (0,1):
+            yOffset = -1
+        elif tracker in (2,3):
+            yOffset = 0
         for i in range(0, 8):
             if byte1[i] == '1':
-                schem.setBlock(  (0, -2*i, (firstBytesDistance + instructionNum)), block  )
+                schem.setBlock(  (0, -2*i + yOffset, -(firstBytesDistance + instructionNum)), block  )
         for i in range(0, 8):
             if byte2[i] == '1':
-                schem.setBlock(  (0, -2*i, (secondBytesDistance - instructionNum)), block  )
+                schem.setBlock(  (0, -2*i + yOffset, -(secondBytesDistance - instructionNum)), block  )
+        if tracker == 3:
+            tracker = 0
+        else:
+            tracker += 1
         instructionNum += 1
     
     schem.save(  "C:/Users/paulm/AppData/Roaming/.minecraft/config/worldedit/schematics", "fibsequence", mcschematic.Version.JE_1_18_2)
