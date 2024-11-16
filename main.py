@@ -8,6 +8,6 @@ def assemble_and_run(program_file_path):
 
 def assemble_and_make_schem(program_file_path, schem_path, schem_file_name):
     assemble(program_file_path, 'machine_code.txt')
-    create_schematic('machine_code.txt',schem_path,schem_file_name)
+    create_schematic('machine_code.txt', schem_path, schem_file_name)
 
-assemble_and_make_schem('programs/fibsequence.as',"C:/Users/paulm/AppData/Roaming/.minecraft/config/worldedit/schematics","fibsequence")
+assemble_and_make_schem('programs/division.as',"C:/Users/paulm/AppData/Roaming/.minecraft/config/worldedit/schematics","division")
