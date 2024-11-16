@@ -6,12 +6,12 @@ path = "C:/Users/paulm/AppData/Roaming/.minecraft/config/worldedit/schematics"
 program = 'collatz'
 
 def assemble_and_run(program):
-    assemble('programs/' + program + '.as', 'machine_code.txt')
-    run('machine_code.txt')
+    assemble('programs/' + program + '.as', 'programs/machine_code.txt')
+    run('programs/machine_code.txt')
 
 def assemble_and_make_schem(program, path):
-    assemble('programs/' + program + '.as', 'machine_code.txt')
-    create_schematic('machine_code.txt', path, program)
+    assemble('programs/' + program + '.as', 'programs/machine_code.txt')
+    create_schematic('programs/machine_code.txt', path, program)
 
-assemble_and_run(program)
-#assemble_and_make_schem(program, path)
+#assemble_and_run(program)
+assemble_and_make_schem(program, path)
