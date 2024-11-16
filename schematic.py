@@ -31,15 +31,17 @@ def create_schematic(machine_code_file):
     for instruction in instructions:
         byte1 = instruction[:8]
         byte2 = instruction[8:]
-        currentBit = 0
+
         for bit in byte1:
+            currentBit = 0
             if bit == '1':
                 schem.setBlock(  (0, currentBit, (firstBytesDistance + instructionNum)), block  )
-                currentbit -= 1
+                currentbit -= 2
         for bit in byte2:
+            currentBit = 0
             if bit == '1':
-                schem.setBlock(  (0, currentBit, (firstBytesDistance - instructionNum)), block  )
-                currentbit -= 1
+                schem.setBlock(  (0, currentBit, (firstBytesDistance - instructionNum)), block)
+                currentbit -= 2
         instructionNum += 1
     
     schem.save(  "schematics", "fibsequence", mcschematic.Version.JE_1_18_2)
