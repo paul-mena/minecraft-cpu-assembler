@@ -20,7 +20,7 @@ def read_file_to_16bit_array(file_path, chunk_size=16):
                 instructionArr.append(chunk)
     
     return instructionArr
-def create_schematic(machine_code_file):
+def create_schematic(machine_code_file,file_path,schematic_name):
     schem = mcschematic.MCSchematic()
     instructions = read_file_to_16bit_array(machine_code_file)
     block = 'minecraft:barrel{Items:[{Slot:0,id:redstone,Count:1}]}'
@@ -48,7 +48,7 @@ def create_schematic(machine_code_file):
             tracker += 1
         instructionNum += 1
     
-    schem.save(  "C:/Users/paulm/AppData/Roaming/.minecraft/config/worldedit/schematics", "fibsequence", mcschematic.Version.JE_1_18_2)
+    schem.save(  file_path, schematic_name, mcschematic.Version.JE_1_18_2)
         
 
 
