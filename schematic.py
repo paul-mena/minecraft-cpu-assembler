@@ -32,19 +32,15 @@ def create_schematic(machine_code_file):
         byte1 = instruction[:8]
         byte2 = instruction[8:]
 
-        for bit in byte1:
-            currentBit = 0
-            if bit == '1':
-                schem.setBlock(  (0, currentBit, (firstBytesDistance + instructionNum)), block  )
-                currentbit -= 2
-        for bit in byte2:
-            currentBit = 0
-            if bit == '1':
-                schem.setBlock(  (0, currentBit, (firstBytesDistance - instructionNum)), block)
-                currentbit -= 2
+        for i in range(0, 8):
+            if byte1[i] == '1':
+                schem.setBlock(  (0, -2*i, (firstBytesDistance + instructionNum)), block  )
+        for i in range(0, 8):
+            if byte2[i] == '1':
+                schem.setBlock(  (0, -2*i, (secondBytesDistance - instructionNum)), block  )
         instructionNum += 1
     
-    schem.save(  "schematics", "fibsequence", mcschematic.Version.JE_1_18_2)
+    schem.save(  "C:/Users/paulm/AppData/Roaming/.minecraft/config/worldedit/schematics", "fibsequence", mcschematic.Version.JE_1_18_2)
         
 
 
