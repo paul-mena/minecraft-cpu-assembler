@@ -108,6 +108,7 @@ def excecuteInstr(opcode,operands):
     
 def updateFlags(aluResult):
     global flagsArray
+    flagsArray = [False,True,False,True,False,True,False,True]
     if aluResult >= 128:
         negFlag = True
         flagsArray[0] = negFlag
@@ -144,6 +145,7 @@ def run(machine_code_file):
         excecuteInstr(opcode,operands)
         if(opcode < 9):
             updateFlags(registers[int(registerDest,2)])
+            #print(list(flagsArray))
     print(list(registers))
 def resetEmulator():
     global halt
