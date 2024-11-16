@@ -117,5 +117,6 @@ def assemble(file_path, output_file):
             print(binaryInstruction)
             with open(output_file, "a") as file:
                 file.write(binaryInstruction)
+    print('Succesfully Assembled ' + f'{currentAddress + 1}' + ' Instructions')
 #print(jumpAddresses)
 #print(jumpLabels)
