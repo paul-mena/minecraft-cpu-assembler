@@ -34,7 +34,7 @@ def assemble(file_path, output_file):
     lines = read_assembly_file_to_list(file_path)
 
     opcodeStrings = ['nop', 'hlt', 'add', 'sub', 'bit', 'bnt', 'inc', 'dec', 'rsh', 'ldi', 'mst', 'mld', 'jmp', 'cjp', 'pst', 'pld']
-    flagLabels = ['msb','!msb', 'zero', '!zero','sss','sss','sss','sss']
+    flagLabels = ['msb','!msb', 'zero', '!zero','carry','!carry','overflow','!overflow']
 
     currentAddress = -1
     jumpLabels = []
