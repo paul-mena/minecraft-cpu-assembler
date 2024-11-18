@@ -21,7 +21,7 @@ def read_file_to_16bit_array(file_path, chunk_size=16):
     
     return instructionArr
 
-dataMem = []
+dataMem = [0] * 32
 
 halt = False
 programCounter = 0
@@ -73,9 +73,13 @@ def ldi(operands):
     immediate = operands[4:]
     registers[int(registerDest,2)] = int(immediate,2)
 def mst(operands):
-    pass
+    global dataMem
+    registerA = operands[4:7]
+    dataMem[registers[7]] = registers[int(registerA,2)]
 def mld(operands):
-    pass
+    global dataMem
+    registerDest = operands[:3]
+    registers[int(registerDest,2)] = dataMem[registers[7]] 
 def jmp(operands):
     global programCounter
     jumpAddress = operands[6:]
@@ -146,6 +150,7 @@ def run(machine_code_file):
         if(opcode < 9):
             updateFlags(registers[int(registerDest,2)])
             #print(list(flagsArray))
+    print(list(dataMem))
     print(list(registers))
 def resetEmulator():
     global halt
