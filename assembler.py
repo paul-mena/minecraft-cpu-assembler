@@ -33,6 +33,7 @@ def assemble(file_path, output_file):
 
     opcodeStrings = ['nop', 'hlt', 'add', 'sub', 'bit', 'bnt', 'inc', 'dec', 'rsh', 'ldi', 'mst', 'mld', 'jmp', 'cjp', 'pst', 'pld']
     flagLabels = ['msb','!msb', 'zero', '!zero','carry','!carry','overflow','!overflow']
+    bitwiseLabels = ['|','&','^',]
 
     currentAddress = -1
     jumpLabels = []
