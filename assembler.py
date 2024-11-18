@@ -84,6 +84,12 @@ def assemble(file_path, output_file):
                     portAddressStr = tokens[2]
                     portAddress = int(portAddressStr[1:])
                     binaryInstruction += f'{portAddress:05b}'
+                if opcode == 10:
+                    binaryInstruction += '0000'
+                    regAStr = tokens[1]
+                    regAInt = int(regAStr[1:])
+                    binaryInstruction += f'{regAInt:03b}'
+                    binaryInstruction += '00000'
             else:
                 regDestStr = tokens[1]
                 regDestInt = int(regDestStr[1:])
@@ -111,6 +117,8 @@ def assemble(file_path, output_file):
                     portAddressStr = tokens[2]
                     portAddress = int(portAddressStr[1:])
                     binaryInstruction += f'{portAddress:08b}'
+                if opcode == 11:
+                    binaryInstruction += '00000000'
         
             print(binaryInstruction)
             with open(output_file, "a") as file:
