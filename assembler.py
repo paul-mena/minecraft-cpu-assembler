@@ -9,7 +9,7 @@ def read_assembly_file_to_list(file_path):
             for line in file:
                 # Strip leading/trailing whitespace and add to the list
                 stripped_line = line.lstrip().rstrip()
-
+                # Ensure comments aren't added to list
                 if not stripped_line.startswith('#') and stripped_line:
                     lines_list.append(stripped_line)
     except FileNotFoundError:
@@ -22,12 +22,10 @@ def read_assembly_file_to_list(file_path):
 def linear_search(arr, target):
     for index in range(len(arr)):
         if arr[index] == target:
-            return index  # Return the index of the found element
-    print("Not found")
-    return -1  # Return -1 if the element is not found
-#def findJumpAddress():
+            return index  
+    raise KeyError("Error in Assembling instructions, check if referenced jump or flag labels exist")
+    return -1
 
-# Usage
 def assemble(file_path, output_file):
     with open(output_file, "w") as file:
                 file.write('')
