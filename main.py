@@ -3,7 +3,7 @@ from schematic import create_schematic
 from emulator import run
 
 path = "C:/Users/paulm/AppData/Roaming/.minecraft/config/worldedit/schematics"
-program = 'collatz'
+program = 'calculator'
 
 def assemble_and_run(program):
     assemble('programs/' + program + '.as', 'programs/machine_code.txt')

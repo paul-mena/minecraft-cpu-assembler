@@ -33,7 +33,7 @@ def assemble(file_path, output_file):
 
     opcodeStrings = ['nop', 'hlt', 'add', 'sub', 'bit', 'bnt', 'inc', 'dec', 'rsh', 'ldi', 'mst', 'mld', 'jmp', 'cjp', 'pst', 'pld']
     flagLabels = ['msb','!msb', 'zero', '!zero','carry','!carry','overflow','!overflow']
-    bitwiseLabels = ['|','&','^',]
+    bitwiseLabels = ['or','and','xor','nor','nand','xnor']
 
     currentAddress = -1
     jumpLabels = []
@@ -101,7 +101,14 @@ def assemble(file_path, output_file):
                     regAInt = int(regAStr[1:])
                     binaryInstruction += f'{regAInt:03b}'
                     if opcode == 4 or opcode == 5:
-                        pass
+                        bitwiseLabel = tokens[3]
+                        labelIndex = linear_search(bitwiseLabels,bitwiseLabel)
+                        if opcode == 5:
+                            labelIndex -= 3
+                        binaryInstruction += f'{labelIndex:02b}'
+                        regBStr = tokens[4]
+                        regBInt = int(regBStr[1:])
+                        binaryInstruction += f'{regBInt:03b}'
                     elif opcode == 2 or opcode == 3:
                         binaryInstruction += '00'
                         regBStr = tokens[3]
@@ -120,6 +127,7 @@ def assemble(file_path, output_file):
                     binaryInstruction += f'{portAddress:08b}'
                 if opcode == 11:
                     binaryInstruction += '00000000'
+
         
             print(binaryInstruction)
             with open(output_file, "a") as file:
