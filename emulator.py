@@ -120,6 +120,8 @@ def pst(operands):
 def pld(operands):
     registerDest = operands[:3]
     portAddress = operands[9:13]
+    portInput = input(f"Enter input for port {int(portAddress,2)}: ")
+    ioPorts[int(portAddress,2)] = int(portInput)
     registers[int(registerDest,2)] = ioPorts[int(portAddress,2)]
 
 opcodeFunctions = [nop, hlt, add, sub, bit, bnt, inc, dec, rsh, ldi, mst, mld, jmp, cjp, pst, pld]
