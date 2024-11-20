@@ -12,6 +12,8 @@ pst r1 p7
 add r3 r1 r0
 jmp .mult_ten
 .mult_ten_end
+pst r4 p1
+pst r3 p2
 add r2 r3 r4
 pst r2 p7
 jmp .wait_for_input
