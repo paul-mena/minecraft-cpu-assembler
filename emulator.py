@@ -51,9 +51,30 @@ def sub(operands):
     result = (registers[int(registerA,2)] + (registers[int(registerB,2)]^0xFF))
     registers[int(registerDest,2)] = (result + 1)  % 0x100
 def bit(operands):
-    pass
+    registerDest = operands[:3]
+    registerA = operands[4:7]
+    registerB = operands[9:13]
+    type = int(operands[7:9],2)
+    
+    if type == 0:
+        registers[int(registerDest,2)] = registers[int(registerA,2)] | registers[int(registerB,2)]
+    elif type == 1:
+        registers[int(registerDest,2)] = registers[int(registerA,2)] & registers[int(registerB,2)]
+    else:
+        registers[int(registerDest,2)] = registers[int(registerA,2)] ^ registers[int(registerB,2)]
+    
 def bnt(operands):
-    pass
+    registerDest = operands[:3]
+    registerA = operands[4:7]
+    registerB = operands[9:13]
+    type = int(operands[7:9],2)
+    if type == 0:
+        registers[int(registerDest,2)] = ~(registers[int(registerA,2)] | registers[int(registerB,2)]) % 0x100
+    elif type == 1:
+        registers[int(registerDest,2)] = ~(registers[int(registerA,2)] & registers[int(registerB,2)]) % 0x100
+    else:
+        registers[int(registerDest,2)] = ~(registers[int(registerA,2)] ^ registers[int(registerB,2)]) % 0x100
+    
 def inc(operands):
     registerDest = operands[:3]
     registerA = operands[4:7]
