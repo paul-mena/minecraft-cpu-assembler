@@ -3,6 +3,7 @@ ldi r1 0
 ldi r2 0
 ldi r3 0
 ldi r4 0
+pst r2 p7
 .wait_for_input
     pld r1 p0
     sub r6 r1 r5
@@ -12,10 +13,9 @@ pst r1 p7
 add r3 r1 r0
 jmp .mult_ten
 .mult_ten_end
-pst r4 p1
-pst r3 p2
 add r2 r3 r4
 pst r2 p7
+nop
 jmp .wait_for_input
 hlt
 #Functions
