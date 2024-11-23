@@ -1,5 +1,11 @@
+# Device opcodes
+# 0-9 Digits
+# 10 - Null
+# 11 - Addition +
+# 12 - Subtraction -
+# 15 - Equals =
 ldi r5 10
-ldi r6 11
+ldi r6 15
 ldi r7 0
 jmp .clear_registers
 .clear_registers_end
@@ -9,11 +15,9 @@ pst r2 p7
     sub r0 r1 r5
     cjp zero .wait_for_input
 sub r0 r1 r6
-cjp zero .store_num
-ldi r6 12
-sub r0 r1 r6
-ldi r6 11
-cjp zero .done
+cjp zero .do_operation
+sub r0 r1 r5
+cjp !msb .load_opcode
 jmp .input_next_digit
 #Functions
 #Multiplies value in r2 by 10 and stores it in r4
@@ -41,9 +45,30 @@ jmp .input_next_digit
     ldi r3 0
     ldi r4 0
     jmp .clear_registers_end
-.store_num
+.load_opcode
     mst r2
     inc r7 r7
+    mst r1
+    inc r7 r7
     jmp .clear_registers
-.done
+.do_operation
+    # load first number and opcode
+    ldi r7 0
+    mld r1
+    inc r7 r7
+    mld r3
+    ldi r6 11
+    sub r0 r1 r6
+    cjp zero .addition
+    ldi r6 12
+    sub r0 r1 r6
+    cjp zero .subtraction
+    .done
+    pst r1 p7
     hlt
+.addition
+    add r1 r1 r2
+    jmp .done
+.subtraction
+    sub r1 r1 r2
+    jmp .done
