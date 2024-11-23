@@ -57,11 +57,11 @@ def bit(operands):
     type = int(operands[7:9],2)
     
     if type == 0:
-        registers[int(registerDest,2)] = registers[int(registerA,2)] | registers[int(registerB,2)]
+        registers[int(registerDest,2)] = (registers[int(registerA,2)] | registers[int(registerB,2)]) % 0x100
     elif type == 1:
-        registers[int(registerDest,2)] = registers[int(registerA,2)] & registers[int(registerB,2)]
+        registers[int(registerDest,2)] = (registers[int(registerA,2)] & registers[int(registerB,2)]) % 0x100
     else:
-        registers[int(registerDest,2)] = registers[int(registerA,2)] ^ registers[int(registerB,2)]
+        registers[int(registerDest,2)] = (registers[int(registerA,2)] ^ registers[int(registerB,2)]) % 0x100
     
 def bnt(operands):
     registerDest = operands[:3]
@@ -69,11 +69,11 @@ def bnt(operands):
     registerB = operands[9:13]
     type = int(operands[7:9],2)
     if type == 0:
-        registers[int(registerDest,2)] = ~(registers[int(registerA,2)] | registers[int(registerB,2)]) % 0x100
+        registers[int(registerDest,2)] = (~(registers[int(registerA,2)] | registers[int(registerB,2)])) & 0xFF
     elif type == 1:
-        registers[int(registerDest,2)] = ~(registers[int(registerA,2)] & registers[int(registerB,2)]) % 0x100
+        registers[int(registerDest,2)] = (~(registers[int(registerA,2)] & registers[int(registerB,2)])) & 0xFF
     else:
-        registers[int(registerDest,2)] = ~(registers[int(registerA,2)] ^ registers[int(registerB,2)]) % 0x100
+        registers[int(registerDest,2)] = (~(registers[int(registerA,2)] ^ registers[int(registerB,2)])) & 0xFF
     
 def inc(operands):
     registerDest = operands[:3]
@@ -169,6 +169,7 @@ def run(machine_code_file):
         registerDest = operands[:3]
         
         #print(opcode)
+        registers[0] = 0
         excecuteInstr(opcode,operands)
         if(opcode < 9):
             updateFlags(registers[int(registerDest,2)])
