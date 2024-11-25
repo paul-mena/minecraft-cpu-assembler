@@ -51,7 +51,7 @@ def create_schematic(machine_code_file,file_path,schematic_name):
         else:
             tracker += 1
         if instructionNum == 15:
-            xOffset = -8
+            xOffset -= 8
             instructionNum = 0
         else:
             instructionNum += 1
