@@ -3,6 +3,8 @@
 # 10 - Null
 # 11 - Addition +
 # 12 - Subtraction -
+# 13 - Multiplication *
+# 14 - Division /
 # 15 - Equals =
 ldi r5 10
 ldi r6 15
@@ -17,7 +19,7 @@ pst r2 p7
 sub r0 r1 r6
 cjp zero .do_operation
 sub r0 r1 r5
-cjp !msb .load_opcode
+cjp !msb .store_opcode
 jmp .input_next_digit
 #Functions
 #Multiplies value in r2 by 10 and stores it in r4
@@ -45,24 +47,29 @@ jmp .input_next_digit
     ldi r3 0
     ldi r4 0
     jmp .clear_registers_end
-.load_opcode
+.store_opcode
     mst r2
     inc r7 r7
     mst r1
-    inc r7 r7
     jmp .clear_registers
 .do_operation
-    # load first number and opcode
+    # load opcode
+    ldi r7 1
+    mld r3
+    # load first number
     ldi r7 0
     mld r1
-    inc r7 r7
-    mld r3
+    #At this point, r1 = first number, r2 = second number, r3 = opcode
     ldi r6 11
-    sub r0 r1 r6
+    sub r0 r3 r6
     cjp zero .addition
     ldi r6 12
-    sub r0 r1 r6
+    sub r0 r3 r6
     cjp zero .subtraction
+    ldi r6 13
+    sub r0 r3 r6
+    cjp zero .multiplication
+    jmp .division
     .done
     pst r1 p7
     hlt
@@ -71,4 +78,18 @@ jmp .input_next_digit
     jmp .done
 .subtraction
     sub r1 r1 r2
+    jmp .done
+.multiplication
+    .mult_loop
+        add r7 r7 r1
+        dec r2 r2
+        cjp !zero .mult_loop
+    add r1 r7 r0
+    jmp .done
+.division
+    .div_loop
+        inc r7 r7
+        sub r1 r1 r2
+    cjp !msb .div_loop
+    dec r1 r7
     jmp .done

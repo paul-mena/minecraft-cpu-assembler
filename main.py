@@ -13,5 +13,5 @@ def assemble_and_make_schem(program, path):
     assemble('programs/' + program + '.as', 'programs/machine_code.txt')
     create_schematic('programs/machine_code.txt', path, program)
 
-assemble_and_run(program)
-#assemble_and_make_schem(program, path)
+#assemble_and_run(program)
+assemble_and_make_schem(program, path)
