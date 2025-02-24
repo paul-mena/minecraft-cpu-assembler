@@ -144,13 +144,14 @@ def updateFlags(aluResult):
         zeroFlag = True
         flagsArray[2] = zeroFlag
         flagsArray[3] = False
+    if aluResult == 0:
+        overflowFlag = True
+        flagsArray[6] = overflowFlag
+        flagsArray[7] = False
     '''
     if aluResult == 0:
-        zeroFlag = True
-        flagsArray = zeroFlag
-    if aluResult == 0:
-        zeroFlag = True
-        flagsArray = zeroFlag
+        flagsArray[2] = zeroFlag
+        flagsArray[3] = False
     '''
 def run(machine_code_file):
     instructionMem = []
