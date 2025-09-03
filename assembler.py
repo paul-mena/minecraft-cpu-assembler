@@ -46,9 +46,8 @@ def assemble(file_path, output_file):
         else:
             currentAddress += 1
 
-    #missing instructions: MST MLD BIT BNT
-    #PLD not tested yet
-    #loading negative immediates not tested yet
+    #PLD not tested yet in Emulator
+    #No support for loading negative immediates
     for line in lines:
         if line[:1] != '.':
             binaryInstruction = ''
