@@ -20,6 +20,7 @@ def read_file_to_16bit_array(file_path, chunk_size=16):
                 instructionArr.append(chunk)
     
     return instructionArr
+
 def create_schematic(machine_code_file,file_path,schematic_name):
     schem = mcschematic.MCSchematic()
     instructions = read_file_to_16bit_array(machine_code_file)

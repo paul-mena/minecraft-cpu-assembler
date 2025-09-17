@@ -27,6 +27,8 @@ halt = False
 programCounter = 0
 
 flagsArray = [False,True,False,True,False,True,False,True]
+carryFlag = False
+overflowFlag = False
 
 registers = array('B', [0] * 8)
 
@@ -40,15 +42,18 @@ def hlt(operands):
     halt = True
     print("Program stopped succesfully")
 def add(operands):
+    global carryFlag
     registerDest = operands[:3]
     registerA = operands[4:7]
     registerB = operands[9:13]
+    checkCarry(registers[int(registerA,2)],registers[int(registerB,2)])
     registers[int(registerDest,2)] = (registers[int(registerA,2)] + registers[int(registerB,2)]) % 0x100
 def sub(operands):
     registerDest = operands[:3]
     registerA = operands[4:7]
     registerB = operands[9:13]
     result = (registers[int(registerA,2)] + (registers[int(registerB,2)]^0xFF))
+    checkCarry(registers[int(registerA,2)],((registers[int(registerB,2)]^0xFF) + 1))
     registers[int(registerDest,2)] = (result + 1)  % 0x100
 def bit(operands):
     registerDest = operands[:3]
@@ -79,11 +84,13 @@ def inc(operands):
     registerDest = operands[:3]
     registerA = operands[4:7]
     result = registers[int(registerA,2)] + 1
+    checkCarry(registers[int(registerA,2)],1)
     registers[int(registerDest,2)] = result % 0x100
     #print(result)
 def dec(operands):
     registerDest = operands[:3]
     registerA = operands[4:7]
+    checkCarry(registers[int(registerA,2)],0xFF)
     registers[int(registerDest,2)] = (registers[int(registerA,2)] + 0xFF) % 0x100
 def rsh(operands):
     registerDest = operands[:3]
@@ -135,6 +142,8 @@ def excecuteInstr(opcode,operands):
     
 def updateFlags(aluResult):
     global flagsArray
+    global carryFlag
+    global overflowFlag
     flagsArray = [False,True,False,True,False,True,False,True]
     if aluResult >= 128:
         negFlag = True
@@ -144,15 +153,25 @@ def updateFlags(aluResult):
         zeroFlag = True
         flagsArray[2] = zeroFlag
         flagsArray[3] = False
-    if aluResult == 0:
-        overflowFlag = True
-        flagsArray[6] = overflowFlag
+    if overflowFlag:
+        flagsArray[4] = overflowFlag
+        flagsArray[5] = False
+    if carryFlag:
+        flagsArray[6] = carryFlag
         flagsArray[7] = False
-    '''
-    if aluResult == 0:
-        flagsArray[2] = zeroFlag
-        flagsArray[3] = False
-    '''
+
+def checkCarry(regA, regB):
+    global carryFlag
+    global overflowFlag
+    lower_sum = (regA & 0x7F) + (regB & 0x7F)
+    sum = regA + regB
+    if(sum > 255):
+        carryFlag = True
+    else:
+        carryFlag = False
+    overflowFlag = lower_sum ^ carryFlag
+
+    
 def run(machine_code_file):
     instructionMem = []
     instructionMem = read_file_to_16bit_array(machine_code_file)
