@@ -32,7 +32,7 @@ def assemble(file_path, output_file):
     lines = read_assembly_file_to_list(file_path)
 
     opcodeStrings = ['nop', 'hlt', 'add', 'sub', 'bit', 'bnt', 'inc', 'dec', 'rsh', 'ldi', 'mst', 'mld', 'jmp', 'cjp', 'pst', 'pld']
-    flagLabels = ['msb','!msb', 'zero', '!zero','carry','!carry','overflow','!overflow']
+    flagLabels = ['msb','!msb', 'zero', '!zero','overflow','!overflow','carry','!carry']
     bitwiseLabels = ['or','and','xor','nor','nand','xnor']
 
     currentAddress = -1
