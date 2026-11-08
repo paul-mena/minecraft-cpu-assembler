@@ -1,4 +1,4 @@
-This is an asembler and emulator I made for an 8-bit computer I made in minecraft. It uses a custom instruction set since a minecraft computer ain't running x86. Currently don't have a full cli or the world uploaded so you can only run programs in the emulator. This is currently just an old project I made public for anyone curious.
+This is an asembler and emulator I made for an 8-bit computer I made in minecraft. It uses a custom instruction set since a minecraft computer ain't running x86. Currently don't have a full cli or the world uploaded so you can only run programs in the emulator. This is just an old project I made public for anyone curious.
 
 If you want to attempt to use this proceed to the instructions below. 
 
