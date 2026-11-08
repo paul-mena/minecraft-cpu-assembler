@@ -3,9 +3,10 @@ This is an asembler and emulator I made for an 8-bit computer I made in minecraf
 If you want to attempt to use this proceed to the instructions below. 
 
 # Usage
-Clone the repo
+Clone the repo and cd into it
 ```bash
 git clone https://github.com/paul-mena/minecraft-cpu-assembler
+cd minecraft-cpu-assembler
 ```
 Setup a Python virtual environment, try `python3` if `python` doesn't work
 ```bash
