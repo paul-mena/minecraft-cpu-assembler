@@ -1,25 +1,37 @@
-This is an asembler and emulator I made for an 8-bit computer I made in minecraft. It uses a custom instruction set since a minecraft computer ain't running x86. Currently don't have a full cli or the world uploaded so you can only run programs in the emulator. This is just an old project I made public for anyone curious.
+This is an assembler and emulator I made for an 8-bit computer I made in Minecraft. It uses a custom instruction set since a Minecraft computer ain't running x86. I've done my best to add good documentation but this is mainly just an old project I made public for anyone curious.
 
 If you want to attempt to use this proceed to the instructions below. 
 
 # Usage
-Clone the repo and cd into it
+You can run programs on the Minecraft computer or the emulator. Perform the initial setup and proceed below.
+## Initial Setup
+**1. Make sure you have Python installed**
+
+Install it [here](https://www.python.org/downloads/)
+
+**2. Clone the repo and cd into it**
 ```bash
 git clone https://github.com/paul-mena/minecraft-cpu-assembler
 cd minecraft-cpu-assembler
 ```
-Setup a Python virtual environment, try `python3` if `python` doesn't work
+**3. Setup a Python virtual environment**
+
+Try `python3` if `python` doesn't work
 ```bash
 python -m venv venv
 source venv/bin/activate
 ```
-Install mcschematic
+**4. Install mcschematic**
 ```bash
 pip install mcschematic
 ```
-Run a program from programs in the emualtor.
+## Running programs in Minecraft
+To see how to setup the Minecraft world and run programs, see [MINECRAFT.md](./MINECRAFT.md).
+## Running programs in the emulator
+
+**Running a program from `programs/`**
 ```bash
-python main.py fibsequence
+python main.py fibsequence -r
 ```
 At the end of each run, the emulator will print a memory dump of all 32 bytes of memory and then the registers.
 
