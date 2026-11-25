@@ -3,23 +3,32 @@ from assembler import assemble
 from schematic import create_schematic
 from emulator import run
 
-#path = "C:/Users/paulm/AppData/Roaming/.minecraft/config/worldedit/schematics"
-#program = 'overflow'
+parser = argparse.ArgumentParser(description="Assembler CLI")
 
-parser = argparse.ArgumentParser()
-
-#parser.add_argument("schem_dir")
-parser.add_argument("program")
+parser.add_argument("program", help="Program name")
+parser.add_argument(
+    "-r", "--run",
+    action="store_true",
+    help="Assemble and run the program"
+)
+parser.add_argument(
+    "-s", "--schematic",
+    metavar="PATH",
+    help="Generate a schematic at the specified path"
+)
 
 args = parser.parse_args()
 
-def assemble_and_run(program):
-    assemble('programs/' + program + '.as', 'programs/machine_code.txt')
-    run('programs/machine_code.txt')
+def assemble_program(program):
+    assemble(f"programs/{program}.as", "programs/machine_code.txt")
 
-def assemble_and_make_schem(program, path):
-    assemble('programs/' + program + '.as', 'programs/machine_code.txt')
-    create_schematic('programs/machine_code.txt', path, program)
+if args.schematic:
+    assemble_program(args.program)
+    create_schematic("programs/machine_code.txt", args.schematic, args.program)
 
-assemble_and_run(args.program)
-#assemble_and_make_schem(program, path)
+elif args.run:
+    assemble_program(args.program)
+    run("programs/machine_code.txt")
+
+else:
+    assemble_program(args.program)
